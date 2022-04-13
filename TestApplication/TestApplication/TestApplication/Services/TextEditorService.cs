@@ -4,7 +4,7 @@
     {
         public string? SwapStartAndEndCharacters(string? text)
         {
-            if (string.IsNullOrEmpty(text) || text!.Length == 0)
+            if (string.IsNullOrEmpty(text))
             {
                 return text;
             }

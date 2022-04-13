@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using Moq;
 using NUnit.Framework;
 using TestApplication.Services;
 using TestApplication.ViewModels;
@@ -8,57 +8,31 @@ namespace TestApplication.Tests
     [TestFixture]
     public class MainPageViewModelTests
     {
-        [Test]
-        [TestCase("SomeText")]
-        public void SwapCharactersCommand_TextNotEmpty_IsFirstCharMovedToEnd(string text)
+        private MainPageViewModel mainPageViewModel;
+
+        [SetUp]
+        public void Init()
         {
-            // arrange
-            var viewModel = new MainPageViewModel(new TextEditorService())
-            {
-                Text = text
-            };
-            var firtsCharacter = text.FirstOrDefault();
+            var mockTextEditorService = new Mock<ITextEditorService>();
+            mockTextEditorService
+                .Setup(editor => editor.SwapStartAndEndCharacters(It.IsAny<string>()))
+                .Returns(It.IsAny<string>());
 
-            // act
-            viewModel.SwapCharactersCommand.Execute(null);
-
-            // assert
-            Assert.AreEqual(firtsCharacter, viewModel.Text.LastOrDefault());
+            mainPageViewModel = new MainPageViewModel(mockTextEditorService.Object);
         }
 
         [Test]
-        [TestCase("SomeText")]
-        public void SwapCharactersCommand_TextNotEmpty_IsLastCharMovedToStart(string text)
+        public void SwapCharactersCommand_InitializedViewModel_ShouldBeNotNull()
         {
-            // arrange
-            var viewModel = new MainPageViewModel(new TextEditorService())
-            {
-                Text = text
-            };
-            var lastCharacter = text.LastOrDefault();
-
-            // act
-            viewModel.SwapCharactersCommand.Execute(null);
-
             // assert
-            Assert.AreEqual(lastCharacter, viewModel.Text.FirstOrDefault());
+            Assert.NotNull(mainPageViewModel.SwapCharactersCommand);
         }
 
         [Test]
-        [TestCase("")]
-        public void SwapCharactersCommand_TextIsEmpty_IsTextSameAsInitial(string text)
+        public void SwapCharactersCommand_InvokeCommand_ShouldNotThrowException()
         {
-            // arrange
-            var viewModel = new MainPageViewModel(new TextEditorService())
-            {
-                Text = text
-            };
-
-            // act
-            viewModel.SwapCharactersCommand.Execute(null);
-
             // assert
-            Assert.AreEqual(text, viewModel.Text);
+            Assert.DoesNotThrow(() => mainPageViewModel.SwapCharactersCommand.Execute(null));
         }
     }
 }
