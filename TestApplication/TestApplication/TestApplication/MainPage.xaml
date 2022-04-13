@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TestApplication.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:TestApplication.ViewModels;assembly=TestApplication"
+    x:DataType="viewmodel:MainPageViewModel">
+
+    <Grid ColumnDefinitions="16,*,16" RowDefinitions="*,*">
+
+        <Entry
+            Grid.Row="0"
+            Grid.Column="1"
+            Placeholder="Enter your text"
+            Text="{Binding Text}"
+            VerticalOptions="End" />
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            BorderColor="Blue"
+            BorderWidth="1"
+            Command="{Binding SwapCharactersCommand}"
+            Text="Move first and last character"
+            VerticalOptions="Center" />
+
+    </Grid>
+
+</ContentPage>
