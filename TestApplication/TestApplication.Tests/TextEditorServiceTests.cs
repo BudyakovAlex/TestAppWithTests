@@ -15,11 +15,23 @@ namespace TestApplication.Tests
         }
 
         [Test]
-        public void SwapStartAndEndCharacters_NotEmptyText_FirstAndLastSymbolsSwaped()
+        [TestCase("UA", "AU")]
+        [TestCase("sometext", "tometexs")]
+        public void SwapStartAndEndCharacters_NotEmptyText_ShouldBeSwapedFirstAndLastSymbols(string initialText, string expectedResult)
+        {
+            // act
+            var result = textEditorService.SwapStartAndEndCharacters(initialText);
+
+            // assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void SwapStartAndEndCharacters_OneCharInText_ShouldBeSameAsInitialText()
         {
             // arrange
-            var initialText = "sometext";
-            var expectedResult = "tometexs";
+            var initialText = "s";
+            var expectedResult = "s";
 
             // act
             var result = textEditorService.SwapStartAndEndCharacters(initialText);
@@ -29,7 +41,7 @@ namespace TestApplication.Tests
         }
 
         [Test]
-        public void SwapStartAndEndCharacters_EmptyText_FirstAndLastSymbolsSwaped()
+        public void SwapStartAndEndCharacters_EmptyText_ShouldBeEmptyText()
         {
             // arrange
             var initialText = string.Empty;
